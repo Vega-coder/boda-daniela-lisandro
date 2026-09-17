@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="description" content="Invitación de Boda - Daniela & Lisandro | 27 de Diciembre de 2026">
+  <meta property="og:title" content="Daniela & Lisandro | ¡Nos Casamos!">
+  <meta property="og:description" content="Acompáñanos a celebrar nuestra boda en Ábrego el 27 de Diciembre de 2026.">
+  <meta property="og:image" content="assets/images/foto-estudio-3.png">
+  <meta name="theme-color" content="#781836">
+  <title>Daniela & Lisandro | ¡Nos vamos a casar!</title>
+
+  <!-- Google Fonts: Luxury Serif, Script & Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400;1,600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css?v=4">
+</head>
+<body>
+
+  <!-- Lienzo de fondo animado (Brillitos de estrellas tipo diamante y pétalos de rosa) -->
+  <canvas id="animated-bg" aria-hidden="true"></canvas>
+
+  <!-- PANTALLA INICIAL: SOBRE ELEGANTE CON LISTÓN DE SATÉN INTERACTIVO -->
+  <div id="envelope-overlay" class="envelope-overlay">
+    <div class="envelope-scene">
+      <div class="envelope-container" id="envelope-interactive" role="button" tabindex="0" aria-label="Sobre cerrado de invitación. Toca para abrir.">
+        
+        <!-- Base interior trasera sólida del sobre -->
+        <div class="envelope-back"></div>
+
+        <!-- Tarjeta interior de invitación (oculta adentro hasta abrir) -->
+        <div class="letter-card" id="letter-card">
+          <div class="letter-inner">
+            <span class="letter-badge">✨ ¡Nos vamos a casar! ✨</span>
+            <span class="letter-monogram">D &amp; L</span>
+            <h2 class="letter-names">Daniela &amp; Lisandro</h2>
+            <p class="letter-date">DOMINGO · 27 DE DICIEMBRE · 2026</p>
+            <span class="letter-place">Iglesia Santa Bárbara · Ábrego</span>
+          </div>
+        </div>
+
+        <!-- Bolsillo frontal sólido del sobre con pliegues cerrados (Cero huecos) -->
+        <div class="envelope-pocket">
+          <svg class="envelope-pocket-svg" viewBox="0 0 380 250" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="pocketBaseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fcecee" />
+                <stop offset="50%" stop-color="#f8d7df" />
+                <stop offset="100%" stop-color="#f0c2cd" />
+              </linearGradient>
+              <linearGradient id="pocketGradLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#f7d0dc" />
+                <stop offset="100%" stop-color="#eebbc9" />
+              </linearGradient>
+              <linearGradient id="pocketGradRight" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#f7d0dc" />
+                <stop offset="100%" stop-color="#eebbc9" />
+              </linearGradient>
+              <linearGradient id="pocketGradBottom" x1="50%" y1="0%" x2="50%" y2="100%">
+                <stop offset="0%" stop-color="#fdecef" />
+                <stop offset="100%" stop-color="#f4cdd9" />
+              </linearGradient>
+              <filter id="bottomPocketShadow" x="-10%" y="-20%" width="120%" height="140%">
+                <feDropShadow dx="0" dy="-4" stdDeviation="5" flood-color="#781836" flood-opacity="0.22" />
+              </filter>
+            </defs>
+            <!-- Fondo completamente sólido del sobre (cero transparencias o huecos) -->
+            <rect x="0" y="0" width="380" height="250" rx="16" fill="url(#pocketBaseGrad)" />
+            <!-- Pliegue lateral izquierdo -->
+            <polygon points="0,0 0,250 190,135" fill="url(#pocketGradLeft)" opacity="0.95" />
+            <!-- Pliegue lateral derecho -->
+            <polygon points="380,0 380,250 190,135" fill="url(#pocketGradRight)" opacity="0.95" />
+            <!-- Pliegue inferior hacia el centro con sombra suave -->
+            <polygon points="0,250 380,250 190,118" fill="url(#pocketGradBottom)" filter="url(#bottomPocketShadow)" />
+            <!-- Costuras y líneas de pliegue finas en oro rosado -->
+            <line x1="0" y1="250" x2="190" y2="118" stroke="#df9b8a" stroke-width="1.2" opacity="0.5" />
+            <line x1="380" y1="250" x2="190" y2="118" stroke="#df9b8a" stroke-width="1.2" opacity="0.5" />
+          </svg>
+        </div>
+
+        <!-- Solapa triangular superior abatible (cierra completamente el sobre por arriba) -->
+        <div class="envelope-flap" id="envelope-flap">
+          <svg class="envelope-flap-svg" viewBox="0 0 380 155" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="flapGradFront" x1="50%" y1="0%" x2="50%" y2="100%">
+                <stop offset="0%" stop-color="#fff5f7" />
+                <stop offset="60%" stop-color="#f9dce4" />
+                <stop offset="100%" stop-color="#f0c2cd" />
+              </linearGradient>
+              <filter id="flapShadow" x="-10%" y="-10%" width="120%" height="160%">
+                <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#781836" flood-opacity="0.32" />
+              </filter>
+            </defs>
+            <!-- Solapa triangular que sobrepasa el centro para cerrar 100% el sobre -->
+            <polygon points="0,0 380,0 190,155" fill="url(#flapGradFront)" stroke="#df9b8a" stroke-width="1.4" filter="url(#flapShadow)" />
+          </svg>
+        </div>
+
+        <!-- LISTÓN DE SATÉN ELEGANTE CON LAZO Y SELLO DE CERA DORADO -->
+        <div class="envelope-ribbon" id="envelope-ribbon" role="button" tabindex="0" aria-label="Tocar el listón para abrir la invitación">
+          <div class="ribbon-band-h"></div>
+          
+          <!-- Lazo central del listón con sello dorado -->
+          <div class="ribbon-bow-center" id="open-envelope-btn">
+            <div class="bow-wing left"></div>
+            <div class="bow-wing right"></div>
+            <div class="wax-seal">
+              <div class="seal-inner">
+                <span class="seal-monogram">D &amp; L</span>
+              </div>
+            </div>
+            <div class="bow-tail left"></div>
+            <div class="bow-tail right"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Botón de apertura -->
+      <div class="envelope-instruction">
+        <button type="button" class="btn-touch-envelope" id="btn-touch-envelope">
+          <svg class="heart-pulse" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          Toca el listón para abrir la invitación
+        </button>
+        <span class="envelope-music-note">🎹 Con música de piano</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPRODUCTOR FLOTANTE DE MÚSICA DE PIANO -->
+  <div class="floating-music-control" id="music-controller">
+    <button class="music-toggle-btn" id="music-btn" aria-label="Controlar música" title="Pausar / Reanudar piano">
+      <span class="piano-icon">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+          <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 11h2v3h-2v-3zm-4 0h2v3h-2v-3zm-4 0h2v3H6v-3zm13 3h-1v-5c0-.55-.45-1-1-1s-1 .45-1 1v5h-2v-5c0-.55-.45-1-1-1s-1 .45-1 1v5H9v-5c0-.55-.45-1-1-1s-1 .45-1 1v5H6c-.55 0-1-.45-1-1V5h14v12z"/>
+        </svg>
+      </span>
+      <span class="sound-wave" id="sound-wave">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </span>
+    </button>
+    <div class="music-tooltip" id="music-tooltip">Piano Romántico</div>
+  </div>
+
+  <!-- Audio nativo con piano romántico -->
+  <audio id="wedding-audio" loop preload="auto">
+    <source src="assets/audio/musica-boda.wav" type="audio/wav">
+  </audio>
+
+  <!-- CONTENIDO PRINCIPAL DE LA INVITACIÓN -->
+  <main class="invitation-wrapper" id="main-content">
+
+    <!-- SECCIÓN HERO / PORTADA PRINCIPAL -->
+    <header class="hero-section">
+      
+      <!-- MENSAJE DESTACADO: ¡NOS VAMOS A CASAR! -->
+      <div class="hero-announcement-banner">
+        <span class="sparkle-star">✦</span>
+        <h2 class="announcement-title">¡Nos vamos a casar!</h2>
+        <span class="sparkle-star">✦</span>
+      </div>
+
+      <div class="couple-names-container">
+        <h1 class="bride-name">Daniela</h1>
+        <span class="ampersand">&amp;</span>
+        <h1 class="groom-name">Lisandro</h1>
+      </div>
+
+      <p class="hero-blessing">«Con la bendición de Dios y de nuestras familias»</p>
+
+      <!-- FOTO PRINCIPAL DESTACADA: OCUPA TODO EL ESPACIO (AMBOS DE BLANCO) -->
+      <div class="hero-featured-photo-wrapper full-width-hero-photo">
+        <div class="photo-royal-frame full-bleed-frame">
+          <img src="assets/images/foto-estudio-3.png" alt="Daniela y Lisandro vestidos de blanco" class="hero-featured-img">
+          <button class="btn-zoom-main" title="Ampliar foto a pantalla completa" data-src="assets/images/foto-estudio-3.png">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              <line x1="11" y1="8" x2="11" y2="14"></line>
+              <line x1="8" y1="11" x2="14" y2="11"></line>
+            </svg>
+          </button>
+        </div>
+        <div class="photo-floating-badge">
+          <span>Daniela &amp; Lisandro</span>
+        </div>
+      </div>
+
+      <!-- TEXTO BONITO Y ROMÁNTICO CORTO ANTES DE LA FECHA -->
+      <div class="hero-romantic-intro">
+        <p class="romantic-phrase">«Caminar de tu mano es mi mayor bendición; amarte hoy, mañana y siempre, nuestra más hermosa promesa.»</p>
+      </div>
+
+      <!-- INSIGNIA DE FECHA -->
+      <div class="wedding-date-card">
+        <div class="date-header">DOMINGO</div>
+        <div class="date-number">27</div>
+        <div class="date-footer">DICIEMBRE · 2026</div>
+      </div>
+
+      <!-- BOTONES DE ACCIÓN RÁPIDA -->
+      <div class="hero-actions">
+        <a href="#rsvp-section" class="btn btn-emerald">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+          Confirmar Asistencia
+        </a>
+        <a href="#itinerario-section" class="btn btn-outline-emerald">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          Ver Iglesia y Recepción
+        </a>
+      </div>
+    </header>
+
+    <!-- SECCIÓN CUENTA REGRESIVA -->
+    <section class="section countdown-section" id="countdown-section">
+      <div class="section-tag">Cuenta Regresiva</div>
+      <h2 class="section-title">Esperando el Gran Momento</h2>
+      <p class="section-subtitle">Cada segundo nos acerca más al día en que uniremos nuestras vidas ante el altar</p>
+
+      <div class="countdown-grid" id="countdown-timer">
+        <div class="countdown-box">
+          <span class="countdown-number" id="days">000</span>
+          <span class="countdown-label">Días</span>
+        </div>
+        <div class="countdown-box">
+          <span class="countdown-number" id="hours">00</span>
+          <span class="countdown-label">Horas</span>
+        </div>
+        <div class="countdown-box">
+          <span class="countdown-number" id="minutes">00</span>
+          <span class="countdown-label">Minutos</span>
+        </div>
+        <div class="countdown-box">
+          <span class="countdown-number" id="seconds">00</span>
+          <span class="countdown-label">Segundos</span>
+        </div>
+      </div>
+
+      <!-- BOTÓN PARA AGREGAR A CALENDARIOS -->
+      <div class="calendar-actions">
+        <button class="btn btn-gold" id="btn-add-google-cal">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z"/>
+          </svg>
+          Añadir a Google Calendar
+        </button>
+        <button class="btn btn-outline-emerald" id="btn-download-ics">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+          </svg>
+          Descargar Recordatorio (.ics)
+        </button>
+      </div>
+    </section>
+
+    <!-- SECCIÓN ITINERARIO Y LUGARES DE CELEBRACIÓN -->
+    <section class="section itinerary-section" id="itinerario-section">
+      <div class="section-tag">Itinerario</div>
+      <h2 class="section-title">¿Dónde y Cuándo?</h2>
+      <p class="section-subtitle">Los lugares donde celebraremos nuestro sacramento y fiesta en Ábrego</p>
+
+      <div class="events-grid">
+        
+        <!-- Tarjeta 1: Iglesia Santa Bárbara -->
+        <div class="event-card">
+          <div class="event-icon">
+            <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M12 2v20M7 7h10"/>
+              <path d="M5 22h14M8 12l4-4 4 4v10H8V12z"/>
+            </svg>
+          </div>
+          <span class="event-badge">Ceremonia Religiosa</span>
+          <h3 class="event-name">Misa Nupcial</h3>
+          
+          <div class="event-time">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <strong>5:00 PM</strong>
+          </div>
+
+          <div class="event-place">
+            <h4 class="place-title">Iglesia Santa Bárbara</h4>
+            <p class="place-desc">Ábrego, Norte de Santander</p>
+            <p class="place-note">Agradecemos llegar con 15 minutos de anticipación para el ingreso puntual.</p>
+          </div>
+
+          <div class="event-btn-wrapper">
+            <a href="https://www.google.com/maps/search/?api=1&query=Iglesia+Santa+B%C3%A1rbara+%C3%81brego" target="_blank" rel="noopener noreferrer" class="btn btn-outline-emerald btn-sm">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              Ver Iglesia en Google Maps
+            </a>
+          </div>
+        </div>
+
+        <!-- Tarjeta 2: Club de los Maestros -->
+        <div class="event-card featured-event">
+          <div class="event-icon">
+            <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M8 22h8M12 15v7M5 3h14l-2 9a5 5 0 0 1-5 4 5 5 0 0 1-5-4L5 3z"/>
+            </svg>
+          </div>
+          <span class="event-badge">Celebración</span>
+          <h3 class="event-name">Recepción &amp; Fiesta</h3>
+          
+          <div class="event-time">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <strong>6:30 PM</strong>
+          </div>
+
+          <div class="event-place">
+            <h4 class="place-title">Club de los Maestros</h4>
+            <p class="place-desc">Ábrego, Norte de Santander</p>
+            <p class="place-note">Brindis de honor, cena especial y fiesta para celebrar nuestra unión.</p>
+          </div>
+
+          <div class="event-btn-wrapper">
+            <a href="https://www.google.com/maps/search/?api=1&query=Club+de+los+Maestros+%C3%81brego" target="_blank" rel="noopener noreferrer" class="btn btn-gold btn-sm">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              Ver Recepción en Google Maps
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECCIÓN GALERÍA DE LAS TRES FOTOS (SIN CARRUSEL) -->
+    <section class="section gallery-section" id="galeria-section">
+      <div class="section-tag">Nuestros Momentos</div>
+      <h2 class="section-title">Nuestra Historia de Amor</h2>
+      <p class="section-subtitle">Tres instantes inolvidables que guardamos para siempre en el corazón</p>
+
+      <div class="wedding-photos-grid">
+        
+        <!-- Foto 1: Estudio de Blanco -->
+        <article class="photo-card-item">
+          <div class="photo-card-media">
+            <img src="assets/images/foto-estudio-3.png" alt="Daniela y Lisandro vestidos de blanco" class="grid-photo-img" loading="lazy">
+            <button class="btn-zoom-photo-card" title="Ver foto ampliada" data-src="assets/images/foto-estudio-3.png">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="11" y1="8" x2="11" y2="14"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+              </svg>
+            </button>
+          </div>
+          <div class="photo-card-caption">
+            <h3>Un Solo Corazón</h3>
+            <p>«Con el alma llena de amor y la ilusión de unir nuestras vidas para siempre.»</p>
+          </div>
+        </article>
+
+        <!-- Foto 2: Beso en la Iglesia -->
+        <article class="photo-card-item featured-church">
+          <div class="photo-card-media">
+            <img src="assets/images/foto-iglesia-2.jpg" alt="Daniela y Lisandro en el altar de la iglesia" class="grid-photo-img" loading="lazy">
+            <button class="btn-zoom-photo-card" title="Ver foto ampliada" data-src="assets/images/foto-iglesia-2.jpg">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="11" y1="8" x2="11" y2="14"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+              </svg>
+            </button>
+          </div>
+          <div class="photo-card-caption">
+            <h3>Bendición en el Altar</h3>
+            <p>«En el templo sagrado donde a las 5:00 PM sellaremos nuestro amor ante Dios.»</p>
+          </div>
+        </article>
+
+        <!-- Foto 3: Selfie Sonriendo Cómplices -->
+        <article class="photo-card-item">
+          <div class="photo-card-media">
+            <img src="assets/images/foto-pareja-1.png" alt="Daniela y Lisandro cómplices y sonrientes" class="grid-photo-img" loading="lazy">
+            <button class="btn-zoom-photo-card" title="Ver foto ampliada" data-src="assets/images/foto-pareja-1.png">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="11" y1="8" x2="11" y2="14"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+              </svg>
+            </button>
+          </div>
+          <div class="photo-card-caption">
+            <h3>Risas y Complicidad</h3>
+            <p>«Cada sonrisa compartida confirma que nuestro amor fue hecho para durar toda la vida.»</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- SECCIÓN DETALLES: LLUVIA DE SOBRES Y CÓDIGO DE VESTIMENTA -->
+    <section class="section details-section">
+      <div class="details-grid">
+
+        <!-- TARJETA DESTACADA: LLUVIA DE SOBRES -->
+        <div class="detail-box gift-box-highlight">
+          <div class="detail-icon-round gold-glow">
+            <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </div>
+          <span class="detail-tag">Muestra de Cariño</span>
+          <h3 class="detail-title">Lluvia de Sobres</h3>
+          <p class="detail-text">
+            «Tu presencia, tus oraciones y tu bendición son nuestro mayor obsequio. Si deseas hacernos un presente en efectivo para nuestro nuevo hogar, dispondremos de un baúl para <strong>lluvia de sobres</strong> en la entrada del Club de los Maestros.»
+          </p>
+        </div>
+
+        <!-- TARJETA: CÓDIGO DE VESTIMENTA -->
+        <div class="detail-box">
+          <div class="detail-icon-round">
+            <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"></path>
+            </svg>
+          </div>
+          <span class="detail-tag">Etiqueta Sugerida</span>
+          <h3 class="detail-title">Código de Vestimenta</h3>
+          <p class="dress-badge">Formal / Traje Elegante</p>
+          <p class="detail-text">
+            Mujeres: Vestido largo o cóctel elegante.<br>
+            Hombres: Traje formal.<br>
+            <span class="white-dress-warning">Nota cordial: Por favor reservar los colores blanco y marfil exclusivamente para la novia.</span>
+          </p>
+          <div class="color-palette-dots">
+            <span class="palette-dot" style="background:#741935" title="Rojo Vino / Borgoña"></span>
+            <span class="palette-dot" style="background:#CF6F86" title="Palo de Rosa"></span>
+            <span class="palette-dot" style="background:#E29F8F" title="Oro Rosado"></span>
+            <span class="palette-dot" style="background:#2A1118" title="Vino Oscuro"></span>
+            <span class="palette-dot" style="background:#D4AF37" title="Dorado Champán"></span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECCIÓN CONFIRMACIÓN DE ASISTENCIA (RSVP VÍA WHATSAPP VINCULADO Y BLOQUEADO) -->
+    <section class="section rsvp-section" id="rsvp-section">
+      <div class="rsvp-wrapper">
+        <div class="section-tag">Confirmación</div>
+        <h2 class="section-title">Confirma tu Asistencia</h2>
+        <p class="section-subtitle">
+          Por favor confírmanos antes del <strong>10 de Diciembre de 2026</strong> para reservar tu lugar especial con nosotros.
+        </p>
+
+        <form class="rsvp-form" id="rsvp-form" onsubmit="return false;">
+          
+          <div class="form-field">
+            <label for="guest-name">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+              Nombre y Apellidos completos *
+            </label>
+            <input type="text" id="guest-name" class="input-control" placeholder="Ej. Familia Pérez Rodríguez / Juan Gómez" required>
+          </div>
+
+          <div class="form-columns">
+            <div class="form-field">
+              <label for="rsvp-status">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                </svg>
+                ¿Nos acompañarás? *
+              </label>
+              <select id="rsvp-status" class="input-control">
+                <option value="si">¡Sí, asistiré con mucha alegría! 💍🎉</option>
+                <option value="no">Lamentablemente no podré asistir 🤍</option>
+              </select>
+            </div>
+
+            <div class="form-field" id="guests-count-field">
+              <label for="guests-count">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                  <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                </svg>
+                Número de personas *
+              </label>
+              <select id="guests-count" class="input-control">
+                <option value="1">1 Persona (Solo yo)</option>
+                <option value="2" selected>2 Personas (Pareja)</option>
+                <option value="3">3 Personas (Familia)</option>
+                <option value="4">4 Personas (Familia)</option>
+                <option value="5+">5 o más personas</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="guest-message">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
+              </svg>
+              Mensaje o dedicatoria especial (Opcional)
+            </label>
+            <textarea id="guest-message" class="input-control" rows="3" placeholder="¡Daniela y Lisandro, muchas felicidades en su matrimonio!..."></textarea>
+          </div>
+
+          <!-- LÍNEA VINCULADA Y BLOQUEADA (NO EDITABLE) -->
+          <div class="linked-phone-box fixed-locked-phone">
+            <div class="phone-icon-tag">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+              </svg>
+            </div>
+            <div class="phone-info-text">
+              <span>Tu confirmación se enviará al número oficial de los novios:</span>
+              <strong class="phone-number-display">+57 318 857 2916</strong>
+            </div>
+            <span class="phone-locked-tag">🔒 Fijo</span>
+          </div>
+
+          <!-- BOTÓN DIRECTO DE WHATSAPP -->
+          <div class="rsvp-action-center">
+            <button type="button" class="btn btn-whatsapp" id="btn-whatsapp-confirm">
+              <svg class="whatsapp-logo" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.186 8.186 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zM8.53 7.33c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.69 2.58 4.1 3.62.57.25 1.02.4 1.37.51.58.18 1.1.16 1.52.1.46-.07 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28s-1.42-.7-1.64-.81c-.22-.11-.38-.16-.54.16-.16.32-.62.81-.76.97-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.92-1.19-.71-.63-1.19-1.41-1.33-1.65-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.19-.47-.39-.41-.54-.42l-.46-.01z"/>
+              </svg>
+              <span>Confirmar Asistencia por WhatsApp</span>
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </section>
+
+    <!-- FOOTER / CIERRE -->
+    <footer class="wedding-footer">
+      <div class="footer-monogram">D &amp; L</div>
+      <p class="footer-date">27 · DICIEMBRE · 2026</p>
+      <p class="footer-place">Ábrego · Norte de Santander</p>
+      <p class="footer-quote">«El inicio de nuestro para siempre»</p>
+      <div class="footer-divider">✦</div>
+      <p class="footer-small">Daniela &amp; Lisandro — Invitación de Boda</p>
+    </footer>
+
+  </main>
+
+  <!-- MODAL LIGHTBOX PARA VISUALIZAR CUALQUIERA DE LAS FOTOS EN ALTA RESOLUCIÓN -->
+  <div class="lightbox-modal" id="lightbox-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Cerrar imagen">&times;</button>
+    <div class="lightbox-content">
+      <img src="" alt="Foto de la boda ampliada" id="lightbox-image">
+    </div>
+  </div>
+
+  <script src="app.js?v=4"></script>
+</body>
+</html>

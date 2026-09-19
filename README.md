@@ -76,6 +76,7 @@ Página web interactiva y elegante para la boda de **Lisandro & Daniela** en Áb
 │   │   ├── foto-iglesia-2.jpg  # Foto en el altar de la iglesia
 │   │   └── foto-pareja-1.png   # Foto selfie cómplices
 │   └── audio/
-│       └── musica-boda.wav     # Pista instrumental de piano
+│       ├── musica-boda.mp3     # Canon in D de Pachelbel (piano romántico)
+│       └── musica-boda.ogg     # Respaldo formato abierto OGG
 └── README.md                   # Documentación del proyecto
 ```

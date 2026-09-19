@@ -1135,9 +1135,11 @@ body {
    DETALLES: LLUVIA DE SOBRES & CÓDIGO DE VESTIMENTA
    -------------------------------------------------------------------------- */
 .details-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 25px;
+  display: flex;
+  justify-content: center;
+  max-width: 580px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .detail-box {

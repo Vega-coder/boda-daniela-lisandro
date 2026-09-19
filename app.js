@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const envelopeInteractive = document.getElementById('envelope-interactive');
   const openEnvelopeBtn = document.getElementById('open-envelope-btn');
   const btnTouchEnvelope = document.getElementById('btn-touch-envelope');
+  const envelopeRibbon = document.getElementById('envelope-ribbon');
   const audioElement = document.getElementById('wedding-audio');
   const musicController = document.getElementById('music-controller');
   const musicBtn = document.getElementById('music-btn');

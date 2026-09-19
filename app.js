@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateCountdown, 1000);
 
   /* ==========================================================================
-     3. SOBRE 3D INTERACTIVO & REPRODUCTOR DE PIANO
+     3. SOBRE 3D INTERACTIVO & REPRODUCTOR DE PIANO NUPCIAL
      ========================================================================== */
   const envelopeOverlay = document.getElementById('envelope-overlay');
   const envelopeInteractive = document.getElementById('envelope-interactive');
@@ -67,51 +67,169 @@ document.addEventListener('DOMContentLoaded', () => {
   const musicController = document.getElementById('music-controller');
   const musicBtn = document.getElementById('music-btn');
 
-  let isPlaying = false;
   let envelopeHasOpened = false;
+  let webAudioSynthActive = false;
+  let webAudioCtx = null;
+
+  function updateMusicUI(active) {
+    if (!musicController) return;
+    if (active) {
+      musicController.classList.add('playing');
+    } else {
+      musicController.classList.remove('playing');
+    }
+  }
+
+  // Sintetizador Web Audio de respaldo (Canon in D) por si el MP3 tarda en cargar o se bloquea
+  function startWebAudioFallback() {
+    if (webAudioSynthActive) return;
+    try {
+      const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtxClass) return;
+      if (!webAudioCtx) webAudioCtx = new AudioCtxClass();
+      if (webAudioCtx.state === 'suspended') webAudioCtx.resume();
+
+      webAudioSynthActive = true;
+      updateMusicUI(true);
+
+      const notes = [
+        // D major
+        [293.66, 369.99, 440.00], [440.00, 587.33],
+        // A major
+        [220.00, 277.18, 329.63], [329.63, 440.00],
+        // B minor
+        [246.94, 293.66, 369.99], [369.99, 493.88],
+        // F# minor
+        [185.00, 220.00, 277.18], [277.18, 369.99],
+        // G major
+        [196.00, 246.94, 293.66], [293.66, 392.00],
+        // D major
+        [146.83, 220.00, 293.66], [293.66, 369.99],
+        // G major
+        [196.00, 246.94, 293.66], [293.66, 392.00],
+        // A major
+        [220.00, 277.18, 329.63], [329.63, 440.00]
+      ];
+
+      let step = 0;
+      const interval = setInterval(() => {
+        if (!webAudioSynthActive || (audioElement && !audioElement.paused && audioElement.currentTime > 0)) {
+          clearInterval(interval);
+          webAudioSynthActive = false;
+          return;
+        }
+
+        const chord = notes[step % notes.length];
+        step++;
+
+        chord.forEach(freq => {
+          if (!webAudioCtx) return;
+          const osc = webAudioCtx.createOscillator();
+          const gain = webAudioCtx.createGain();
+
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, webAudioCtx.currentTime);
+
+          gain.gain.setValueAtTime(0.08, webAudioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, webAudioCtx.currentTime + 1.2);
+
+          osc.connect(gain);
+          gain.connect(webAudioCtx.destination);
+
+          osc.start();
+          osc.stop(webAudioCtx.currentTime + 1.2);
+        });
+      }, 750);
+    } catch (e) {
+      console.warn("Web Audio no disponible:", e);
+    }
+  }
+
+  function stopWebAudioFallback() {
+    webAudioSynthActive = false;
+    if (webAudioCtx && webAudioCtx.state === 'running') {
+      try { webAudioCtx.suspend(); } catch(e) {}
+    }
+  }
 
   function playPiano() {
-    isPlaying = true;
-    if (musicController) musicController.classList.add('playing');
-    if (audioElement) {
-      audioElement.play().catch(err => {
-        console.log("Reproducción pausada por política del navegador hasta clic:", err);
+    if (!audioElement) return;
+    audioElement.volume = 1.0;
+    audioElement.muted = false;
+
+    if (!audioElement.src || audioElement.src === '' || audioElement.src === window.location.href) {
+      audioElement.src = 'assets/audio/musica-boda.mp3';
+    }
+
+    const promise = audioElement.play();
+    if (promise !== undefined) {
+      promise.then(() => {
+        stopWebAudioFallback();
+        updateMusicUI(true);
+      }).catch(err => {
+        console.warn("Reproducción en espera o bloqueada, activando sintetizador nupcial:", err);
+        startWebAudioFallback();
       });
+    } else {
+      updateMusicUI(true);
     }
   }
 
   function pausePiano() {
-    isPlaying = false;
-    if (musicController) musicController.classList.remove('playing');
+    stopWebAudioFallback();
     if (audioElement) {
       audioElement.pause();
     }
+    updateMusicUI(false);
   }
 
-  function togglePiano() {
-    if (isPlaying) {
-      pausePiano();
-    } else {
-      playPiano();
+  function togglePiano(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
     }
+    if (!audioElement) return;
+
+    if (audioElement.paused && !webAudioSynthActive) {
+      playPiano();
+    } else {
+      pausePiano();
+    }
+  }
+
+  if (audioElement) {
+    audioElement.addEventListener('play', () => {
+      stopWebAudioFallback();
+      updateMusicUI(true);
+    });
+    audioElement.addEventListener('playing', () => {
+      stopWebAudioFallback();
+      updateMusicUI(true);
+    });
+    audioElement.addEventListener('pause', () => {
+      if (!webAudioSynthActive) updateMusicUI(false);
+    });
+    audioElement.addEventListener('ended', () => {
+      if (!webAudioSynthActive) updateMusicUI(false);
+    });
   }
 
   function triggerEnvelopeOpen() {
     if (envelopeHasOpened) return;
     envelopeHasOpened = true;
 
-    // 1. Abrir la solapa 3D del sobre y deslizar la carta hacia arriba
+    // 1. Iniciar inmediatamente la música (gesto del usuario)
+    playPiano();
+
+    // 2. Abrir solapa 3D del sobre y desplegar carta
     if (envelopeInteractive) {
       envelopeInteractive.classList.add('is-open');
     }
 
-    // 2. Iniciar música de piano romántica
-    playPiano();
-
-    // 3. Estallido de chispas doradas en el centro
+    // 3. Estallido de chispas doradas
     burstGoldSparkles(window.innerWidth / 2, window.innerHeight / 2);
 
-    // 4. Tras apreciar la carta emergiendo del sobre, desvanecer suavemente el telón
+    // 4. Desvanecer suavemente el telón del sobre
     setTimeout(() => {
       if (envelopeOverlay) {
         envelopeOverlay.classList.add('opened');
@@ -119,12 +237,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1600);
   }
 
-  const envelopeRibbon = document.getElementById('envelope-ribbon');
-  if (envelopeRibbon) {
-    envelopeRibbon.addEventListener('click', (e) => {
+  // Vincular eventos táctiles y de clic para apertura instantánea en móviles
+  const bindOpen = (el) => {
+    if (!el) return;
+    el.addEventListener('click', (e) => {
       e.stopPropagation();
       triggerEnvelopeOpen();
     });
+    el.addEventListener('touchend', (e) => {
+      e.stopPropagation();
+      triggerEnvelopeOpen();
+    }, { passive: true });
+  };
+
+  bindOpen(envelopeRibbon);
+  bindOpen(openEnvelopeBtn);
+  bindOpen(btnTouchEnvelope);
+  bindOpen(envelopeInteractive);
+
+  if (envelopeOverlay) {
+    envelopeOverlay.addEventListener('click', () => {
+      if (!envelopeHasOpened) triggerEnvelopeOpen();
+    });
+    envelopeOverlay.addEventListener('touchend', () => {
+      if (!envelopeHasOpened) triggerEnvelopeOpen();
+    }, { passive: true });
+  }
+
+  if (envelopeRibbon) {
     envelopeRibbon.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
@@ -133,31 +273,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (envelopeInteractive) {
-    envelopeInteractive.addEventListener('click', triggerEnvelopeOpen);
-    envelopeInteractive.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        triggerEnvelopeOpen();
-      }
-    });
-  }
-  if (openEnvelopeBtn) {
-    openEnvelopeBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      triggerEnvelopeOpen();
-    });
-  }
-  if (btnTouchEnvelope) {
-    btnTouchEnvelope.addEventListener('click', (e) => {
-      e.stopPropagation();
-      triggerEnvelopeOpen();
+  if (musicBtn) {
+    musicBtn.addEventListener('click', togglePiano);
+    musicBtn.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      togglePiano(e);
     });
   }
 
-  if (musicBtn) {
-    musicBtn.addEventListener('click', togglePiano);
-  }
+  // Respaldo global para móviles: al primer toque tras abrir el sobre, si aún no sonaba, se reanuda
+  const handleUniversalUserGesture = () => {
+    if (envelopeHasOpened && audioElement && audioElement.paused && !webAudioSynthActive) {
+      playPiano();
+    }
+  };
+  document.addEventListener('touchstart', handleUniversalUserGesture, { passive: true });
+  document.addEventListener('click', handleUniversalUserGesture);
 
   /* ==========================================================================
      4. CARRUSEL INTERACTIVO DE FOTOS

@@ -1218,26 +1218,32 @@ body {
   line-height: 1.6;
 }
 
-.celebration-highlights {
+.gift-quote-banner {
+  margin-top: 22px;
+  padding: 16px 20px;
+  background: rgba(253, 232, 237, 0.45);
+  border-top: 1px dashed rgba(223, 155, 138, 0.5);
+  border-bottom: 1px dashed rgba(223, 155, 138, 0.5);
+  border-radius: 12px;
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-top: 18px;
 }
 
-.highlight-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.82rem;
-  font-weight: 600;
+.gift-quote-sparkle {
+  color: var(--rose-gold);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.gift-quote-text {
+  font-family: var(--font-body-serif);
+  font-style: italic;
+  font-size: 1.05rem;
   color: var(--primary-wine);
-  background: linear-gradient(135deg, #fff2f5 0%, #fde8ed 100%);
-  border: 1px solid rgba(223, 155, 138, 0.5);
-  padding: 6px 14px;
-  border-radius: 20px;
-  box-shadow: 0 2px 8px rgba(120, 24, 54, 0.06);
+  line-height: 1.5;
+  margin: 0;
 }
 
 /* --------------------------------------------------------------------------

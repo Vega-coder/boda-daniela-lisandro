@@ -1155,6 +1155,12 @@ body {
   box-shadow: var(--shadow-rose-glow);
 }
 
+.detail-box.romantic-promise-box {
+  border: 2px solid rgba(223, 155, 138, 0.6);
+  background: linear-gradient(180deg, #ffffff 0%, #fff8fa 100%);
+  box-shadow: 0 10px 30px rgba(120, 24, 54, 0.08);
+}
+
 .detail-icon-round {
   width: 65px;
   height: 65px;

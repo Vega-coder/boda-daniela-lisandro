@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ESTILOS DE INVITACIÓN DE BODA - DANIELA & LISANDRO
+   ESTILOS DE INVITACIÓN DE BODA - LISANDRO & DANIELA
    Paleta: Rosa Romántico Nupcial, Borgoña Sedoso, Oro Rosado & Destellos
    ========================================================================== */
 
@@ -1189,6 +1189,7 @@ body {
   margin-bottom: 12px;
 }
 
+.celebration-badge,
 .dress-badge {
   display: inline-block;
   font-size: 0.8rem;
@@ -1197,9 +1198,10 @@ body {
   color: var(--primary-wine);
   font-weight: 700;
   background: var(--rose-blush);
-  padding: 4px 14px;
+  padding: 5px 16px;
   border-radius: 12px;
   margin-bottom: 12px;
+  border: 1px solid rgba(223, 155, 138, 0.4);
 }
 
 .detail-text {
@@ -1208,27 +1210,26 @@ body {
   line-height: 1.6;
 }
 
-.white-dress-warning {
-  display: block;
-  font-size: 0.85rem;
-  color: #a41938;
-  margin-top: 10px;
-  font-weight: 600;
-}
-
-.color-palette-dots {
+.celebration-highlights {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   margin-top: 18px;
 }
 
-.palette-dot {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 2px solid #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+.highlight-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--primary-wine);
+  background: linear-gradient(135deg, #fff2f5 0%, #fde8ed 100%);
+  border: 1px solid rgba(223, 155, 138, 0.5);
+  padding: 6px 14px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(120, 24, 54, 0.06);
 }
 
 /* --------------------------------------------------------------------------

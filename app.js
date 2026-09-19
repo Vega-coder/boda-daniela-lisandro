@@ -1,5 +1,5 @@
 /**
- * Invitación de Boda Interactiva - Daniela & Lisandro
+ * Invitación de Boda Interactiva - Lisandro & Daniela
  * Fecha: 27 de Diciembre de 2026
  * Ceremonia: Iglesia Santa Bárbara en Ábrego (5:00 PM)
  * Recepción: Club de los Maestros (6:30 PM)
@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
      1. CONFIGURACIÓN DEL EVENTO
      ========================================================================== */
   const WEDDING_CONFIG = {
-    bride: "Daniela",
     groom: "Lisandro",
+    bride: "Daniela",
     targetDate: new Date(2026, 11, 27, 17, 0, 0), // 27 Diciembre 2026 a las 17:00 hrs
     church: "Iglesia Santa Bárbara, Ábrego",
     reception: "Club de los Maestros, Ábrego",
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const guestName = guestNameInput ? guestNameInput.value.trim() : '';
 
       if (!guestName) {
-        alert('Por favor escribe tu nombre y apellidos para que Daniela y Lisandro sepan quién confirma.');
+        alert('Por favor escribe tu nombre y apellidos para que Lisandro y Daniela sepan quién confirma.');
         if (guestNameInput) guestNameInput.focus();
         return;
       }
@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const guestsCount = guestsCountSelect ? guestsCountSelect.options[guestsCountSelect.selectedIndex].text : '2 Personas';
       const message = guestMessageInput ? guestMessageInput.value.trim() : '';
 
-      let whatsappText = `💍 *CONFIRMACIÓN DE BODA - DANIELA & LISANDRO* 💍\n\n`;
+      let whatsappText = `💍 *CONFIRMACIÓN DE BODA - LISANDRO & DANIELA* 💍\n\n`;
       whatsappText += `🗓 *Fecha:* Domingo, 27 de Diciembre de 2026\n`;
       whatsappText += `⛪ *Misa:* Iglesia Santa Bárbara (Ábrego) - 5:00 PM\n`;
       whatsappText += `🥂 *Recepción:* Club de los Maestros (Ábrego) - 6:30 PM\n\n`;
@@ -308,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (message) {
         whatsappText += `💌 *Dedicatoria especial:* "${message}"\n`;
       }
-      whatsappText += `\n¡Con todo nuestro cariño para Daniela y Lisandro! ✨`;
+      whatsappText += `\n¡Con todo nuestro cariño para Lisandro y Daniela! ✨`;
 
       const targetPhone = WEDDING_CONFIG.phoneWhatsApp;
       const encodedUrl = `https://api.whatsapp.com/send?phone=${targetPhone}&text=${encodeURIComponent(whatsappText)}`;
@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnGoogleCal) {
     btnGoogleCal.addEventListener('click', () => {
-      const calTitle = encodeURIComponent("Boda de Daniela & Lisandro 💍");
+      const calTitle = encodeURIComponent("Boda de Lisandro & Daniela 💍");
       const calDetails = encodeURIComponent("¡Acompáñanos a celebrar nuestra boda!\n\n⛪ Misa Nupcial: 5:00 PM - Iglesia Santa Bárbara (Ábrego)\n🥂 Recepción & Fiesta: 6:30 PM - Club de los Maestros (Ábrego)\n\n¡Te esperamos con mucha emoción!");
       const calLocation = encodeURIComponent("Iglesia Santa Bárbara y Club de los Maestros, Ábrego, Norte de Santander");
       const calDates = "20261227T170000/20261228T020000";
@@ -340,11 +340,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const icsData = [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
-        "PRODID:-//Daniela & Lisandro//Invitacion de Boda//ES",
+        "PRODID:-//Lisandro & Daniela//Invitacion de Boda//ES",
         "CALSCALE:GREGORIAN",
         "BEGIN:VEVENT",
-        "SUMMARY:Boda de Daniela y Lisandro 💍",
-        "DESCRIPTION:Celebración del matrimonio de Daniela y Lisandro.\\nMisa: 5:00 PM en Iglesia Santa Bárbara\\nRecepción: 6:30 PM en Club de los Maestros",
+        "SUMMARY:Boda de Lisandro y Daniela 💍",
+        "DESCRIPTION:Celebración del matrimonio de Lisandro y Daniela.\\nMisa: 5:00 PM en Iglesia Santa Bárbara\\nRecepción: 6:30 PM en Club de los Maestros",
         "LOCATION:Iglesia Santa Bárbara y Club de los Maestros, Ábrego",
         "DTSTART:20261227T170000",
         "DTEND:20261228T020000",
@@ -356,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const blob = new Blob([icsData], { type: "text/calendar;charset=utf-8" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "Boda-Daniela-y-Lisandro.ics";
+      link.download = "Boda-Lisandro-y-Daniela.ics";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

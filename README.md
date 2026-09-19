@@ -1,7 +1,7 @@
 # 💍 Invitación de Boda Digital e Interactiva
-## Daniela & Lisandro &mdash; 27 de Diciembre de 2026
+## Lisandro & Daniela &mdash; 27 de Diciembre de 2026
 
-Página web interactiva y elegante para la boda de **Daniela & Lisandro** en Ábrego, Norte de Santander.
+Página web interactiva y elegante para la boda de **Lisandro & Daniela** en Ábrego, Norte de Santander.
 
 ---
 
@@ -9,7 +9,7 @@ Página web interactiva y elegante para la boda de **Daniela & Lisandro** en Áb
 
 1. **💌 Sobre de Lujo 100% Cerrado e Interactivo:**
    - Diseño con textura de papelería nupcial rosa perla, completamente cerrado con pliegues continuos y solapa triangular.
-   - Cruzado por un elegante listón de satén vino y oro rosado con lazo y sello de lacre en relieve con el monograma **`D & L`**.
+   - Cruzado por un elegante listón de satén vino y oro rosado con lazo y sello de lacre en relieve con el monograma **`L & D`**.
    - Al tocar el listón o el sobre:
      - El listón se abre suavemente.
      - La solapa se eleva en animación 3D (`rotateX: 180°`).

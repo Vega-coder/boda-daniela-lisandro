@@ -1,9 +1,7 @@
 /**
  * Invitación de Boda - Lisandro & Daniela
- * Fecha: 27 de Diciembre de 2026
- * Ceremonia: Iglesia Santa Bárbara en Ábrego (5:00 PM)
- * Recepción: Club de los Maestros (6:30 PM)
- * WhatsApp Oficial: +57 318 857 2916
+ * Fecha: 27 de Diciembre de 2026 (Ábrego, Norte de Santander)
+ * WhatsApp Novios: +57 318 857 2916
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,49 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
     groom: "Lisandro",
     bride: "Daniela",
     targetDate: new Date(2026, 11, 27, 17, 0, 0),
-    church: "Iglesia Santa Bárbara, Ábrego",
-    reception: "Club de los Maestros, Ábrego",
-    churchTime: "5:00 PM",
-    receptionTime: "6:30 PM",
     phoneWhatsApp: "573188572916"
   };
 
   /* ==========================================================================
-     1. CUENTA REGRESIVA
-     ========================================================================== */
-  const daysEl = document.getElementById('days');
-  const hoursEl = document.getElementById('hours');
-  const minutesEl = document.getElementById('minutes');
-  const secondsEl = document.getElementById('seconds');
-
-  function updateCountdown() {
-    const now = new Date().getTime();
-    const distance = WEDDING_CONFIG.targetDate.getTime() - now;
-
-    if (distance <= 0) {
-      if (daysEl) daysEl.textContent = '00';
-      if (hoursEl) hoursEl.textContent = '00';
-      if (minutesEl) minutesEl.textContent = '00';
-      if (secondsEl) secondsEl.textContent = '00';
-      return;
-    }
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
-    if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
-    if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
-    if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
-  }
-
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
-
-  /* ==========================================================================
-     2. MÚSICA DE BODA (CANON IN D - PIANO) CON ACTIVACIÓN INSTANTÁNEA
+     1. MÚSICA DE BODA (CANON IN D - PIANO)
      ========================================================================== */
   const audioElement = document.getElementById('wedding-audio');
   const musicController = document.getElementById('music-controller');
@@ -150,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         stopWebAudioFallback();
         updateMusicUI(true);
       }).catch(err => {
-        console.warn("Reproducción en espera o bloqueada, activando sintetizador nupcial:", err);
+        console.warn("Audio en espera, activando sintetizador nupcial:", err);
         startWebAudioFallback();
       });
     } else {
@@ -185,14 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
       stopWebAudioFallback();
       updateMusicUI(true);
     });
-    audioElement.addEventListener('playing', () => {
-      stopWebAudioFallback();
-      updateMusicUI(true);
-    });
     audioElement.addEventListener('pause', () => {
-      if (!webAudioSynthActive) updateMusicUI(false);
-    });
-    audioElement.addEventListener('ended', () => {
       if (!webAudioSynthActive) updateMusicUI(false);
     });
   }
@@ -205,27 +158,96 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Desbloqueo universal: al primer toque en la pantalla se activa la música
-  let hasInteracted = false;
-  const handleFirstUserInteraction = () => {
-    if (!hasInteracted) {
-      hasInteracted = true;
-      if (audioElement && audioElement.paused) {
-        playPiano();
-      }
+  /* ==========================================================================
+     2. APERTURA INTERACTIVA DEL SOBRE
+     ========================================================================== */
+  const envelopeOverlay = document.getElementById('envelope-overlay');
+  const envelopeInteractive = document.getElementById('envelope-interactive');
+  const btnOpenEnvelope = document.getElementById('btn-open-envelope');
+  let envelopeOpened = false;
+
+  function triggerOpenEnvelope(e) {
+    if (e) e.stopPropagation();
+    if (envelopeOpened) return;
+    envelopeOpened = true;
+
+    // Iniciar piano de boda al tocar
+    playPiano();
+
+    // Animación de solapa y tarjeta
+    if (envelopeInteractive) {
+      envelopeInteractive.classList.add('is-open');
     }
-  };
-  document.addEventListener('touchstart', handleFirstUserInteraction, { passive: true, once: true });
-  document.addEventListener('click', handleFirstUserInteraction, { once: true });
+
+    // Desvanecer el sobre para revelar la invitación
+    setTimeout(() => {
+      if (envelopeOverlay) {
+        envelopeOverlay.classList.add('fade-out');
+        setTimeout(() => {
+          envelopeOverlay.style.display = 'none';
+        }, 650);
+      }
+    }, 750);
+  }
+
+  if (btnOpenEnvelope) {
+    btnOpenEnvelope.addEventListener('click', triggerOpenEnvelope);
+    btnOpenEnvelope.addEventListener('touchend', triggerOpenEnvelope, { passive: true });
+  }
+
+  if (envelopeInteractive) {
+    envelopeInteractive.addEventListener('click', triggerOpenEnvelope);
+    envelopeInteractive.addEventListener('touchend', triggerOpenEnvelope, { passive: true });
+  }
+
+  if (envelopeOverlay) {
+    envelopeOverlay.addEventListener('click', (e) => {
+      if (!envelopeOpened) triggerOpenEnvelope(e);
+    });
+  }
 
   /* ==========================================================================
-     3. AGENDAR EN GOOGLE CALENDAR
+     3. CUENTA REGRESIVA
+     ========================================================================== */
+  const daysEl = document.getElementById('days');
+  const hoursEl = document.getElementById('hours');
+  const minutesEl = document.getElementById('minutes');
+  const secondsEl = document.getElementById('seconds');
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = WEDDING_CONFIG.targetDate.getTime() - now;
+
+    if (distance <= 0) {
+      if (daysEl) daysEl.textContent = '00';
+      if (hoursEl) hoursEl.textContent = '00';
+      if (minutesEl) minutesEl.textContent = '00';
+      if (secondsEl) secondsEl.textContent = '00';
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
+    if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+    if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
+    if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  /* ==========================================================================
+     4. BOTÓN GOOGLE CALENDAR
      ========================================================================== */
   const btnGoogleCal = document.getElementById('btn-add-google-cal');
   if (btnGoogleCal) {
     btnGoogleCal.addEventListener('click', () => {
       const calTitle = encodeURIComponent("Boda de Lisandro & Daniela 💍");
-      const calDetails = encodeURIComponent("¡Acompáñanos a celebrar nuestra boda!\n\n⛪ Misa Nupcial: 5:00 PM - Iglesia Santa Bárbara (Ábrego)\n🥂 Recepción & Fiesta: 6:30 PM - Club de los Maestros (Ábrego)\n\n¡Te esperamos!");
+      const calDetails = encodeURIComponent("¡Acompáñanos a celebrar nuestra boda!\n\n⛪ Misa: 5:00 PM - Iglesia Santa Bárbara (Ábrego)\n🥂 Recepción: 6:30 PM - Club de los Maestros (Ábrego)");
       const calLocation = encodeURIComponent("Iglesia Santa Bárbara y Club de los Maestros, Ábrego, Norte de Santander");
       const calDates = "20261227T170000/20261228T020000";
 
@@ -235,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     4. CONFIRMACIÓN DE ASISTENCIA DIRECTA POR WHATSAPP (+57 318 857 2916)
+     5. CONFIRMACIÓN POR WHATSAPP (+57 318 857 2916)
      ========================================================================== */
   const btnWhatsApp = document.getElementById('btn-whatsapp-confirm');
   const guestNameInput = document.getElementById('guest-name');
@@ -275,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     5. FONDO ANIMADO DE DESTELLOS Y PÉTALOS SUAVES
+     6. FONDO ANIMADO SUTIL (CANVAS)
      ========================================================================== */
   const canvas = document.getElementById('animated-bg');
   if (!canvas) return;
@@ -289,43 +311,8 @@ document.addEventListener('DOMContentLoaded', () => {
     height = canvas.height = window.innerHeight;
   });
 
-  const petals = [];
-  const petalCount = window.innerWidth < 768 ? 16 : 28;
-
   const sparkles = [];
-  const sparkleCount = window.innerWidth < 768 ? 30 : 60;
-
-  class Petal {
-    constructor() {
-      this.reset();
-    }
-    reset() {
-      this.x = Math.random() * width;
-      this.y = Math.random() * -height;
-      this.size = Math.random() * 9 + 7;
-      this.speedY = Math.random() * 0.9 + 0.4;
-      this.speedX = Math.random() * 0.8 - 0.4;
-      this.rotation = Math.random() * Math.PI * 2;
-      this.rotationSpeed = Math.random() * 0.02 - 0.01;
-      this.opacity = Math.random() * 0.45 + 0.25;
-    }
-    update() {
-      this.y += this.speedY;
-      this.x += Math.sin(this.y * 0.005) * 0.5 + this.speedX;
-      this.rotation += this.rotationSpeed;
-      if (this.y > height + 20) this.reset();
-    }
-    draw() {
-      ctx.save();
-      ctx.translate(this.x, this.y);
-      ctx.rotate(this.rotation);
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(232, 149, 167, ${this.opacity})`;
-      ctx.ellipse(0, 0, this.size, this.size * 0.6, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-    }
-  }
+  const sparkleCount = window.innerWidth < 768 ? 25 : 45;
 
   class Sparkle {
     constructor() {
@@ -361,13 +348,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  for (let i = 0; i < petalCount; i++) petals.push(new Petal());
   for (let i = 0; i < sparkleCount; i++) sparkles.push(new Sparkle());
 
   function renderScene() {
     ctx.clearRect(0, 0, width, height);
     sparkles.forEach(s => { s.update(); s.draw(); });
-    petals.forEach(p => { p.update(); p.draw(); });
     requestAnimationFrame(renderScene);
   }
   renderScene();

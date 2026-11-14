@@ -19,18 +19,43 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400;1,600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css?v=20261114-1">
+  <link rel="stylesheet" href="styles.css?v=20261114-2">
 </head>
 <body>
 
-  <!-- Fondo animado suave -->
+  <!-- Fondo animado sutil -->
   <canvas id="animated-bg" aria-hidden="true"></canvas>
+
+  <!-- 1. ENTRADA CON SOBRE ELEGANTE E INTERACTIVO -->
+  <div id="envelope-overlay" class="envelope-overlay">
+    <div class="envelope-center-wrap">
+      <div class="envelope-3d" id="envelope-interactive">
+        <div class="envelope-flap" id="envelope-flap"></div>
+        <div class="envelope-body">
+          <div class="envelope-ribbon-v"></div>
+          <div class="envelope-ribbon-h"></div>
+          <div class="wax-seal-badge">
+            <span class="seal-initials">L &amp; D</span>
+          </div>
+        </div>
+        <div class="envelope-inner-card">
+          <p class="inner-tag">¡Nos Casamos!</p>
+          <p class="inner-names">Lisandro &amp; Daniela</p>
+          <p class="inner-date">27 · DIC · 2026</p>
+        </div>
+      </div>
+      <button type="button" class="btn-touch-open" id="btn-open-envelope">
+        <span class="touch-heart">💌</span> Toca para abrir la invitación
+      </button>
+      <span class="envelope-music-hint">🎹 Con música de piano</span>
+    </div>
+  </div>
 
   <!-- REPRODUCTOR FLOTANTE DE MÚSICA DE PIANO -->
   <div class="floating-music-control" id="music-controller">
     <button class="music-toggle-btn" id="music-btn" aria-label="Controlar música" title="Pausar / Reanudar piano">
       <span class="piano-icon">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
           <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 11h2v3h-2v-3zm-4 0h2v3h-2v-3zm-4 0h2v3H6v-3zm13 3h-1v-5c0-.55-.45-1-1-1s-1 .45-1 1v5h-2v-5c0-.55-.45-1-1-1s-1 .45-1 1v5H9v-5c0-.55-.45-1-1-1s-1 .45-1 1v5H6c-.55 0-1-.45-1-1V5h14v12z"/>
         </svg>
       </span>
@@ -38,10 +63,8 @@
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
-        <span class="bar"></span>
       </span>
     </button>
-    <div class="music-tooltip" id="music-tooltip">Música: Canon in D</div>
   </div>
 
   <!-- Audio nativo con piano romántico -->
@@ -50,11 +73,11 @@
     <source src="assets/audio/musica-boda.ogg" type="audio/ogg">
   </audio>
 
-  <!-- TARJETA ÚNICA DE INVITACIÓN (TODA LA INFORMACIÓN EN UNA SOLA PÁGINA) -->
+  <!-- TARJETA ÚNICA DE INVITACIÓN (COMPACTA, DIRECTA Y ELEGANTE) -->
   <div class="main-page-container">
     <main class="single-invitation-card">
 
-      <!-- 1. ENCABEZADO Y NOMBRES -->
+      <!-- ENCABEZADO -->
       <header class="card-header">
         <div class="monogram-badge">
           <span class="monogram-text">L &amp; D</span>
@@ -64,13 +87,15 @@
         <p class="blessing-text">«Con la bendición de Dios y la compañía de nuestras familias»</p>
       </header>
 
-      <!-- 2. FOTO PRINCIPAL -->
+      <!-- FOTO PRINCIPAL (PERFECTAMENTE ENMARCADA PARA QUE SE VEAN LOS DOS) -->
       <div class="featured-photo-box">
-        <img src="assets/images/foto-estudio-3.png" alt="Lisandro y Daniela vestidos de blanco" class="couple-img">
-        <p class="photo-quote">«Caminar de tu mano es mi mayor bendición; amarte hoy, mañana y siempre, nuestra promesa.»</p>
+        <div class="photo-frame">
+          <img src="assets/images/foto-estudio-3.png" alt="Lisandro y Daniela" class="couple-img">
+        </div>
+        <p class="photo-quote">«Caminar de tu mano es mi mayor bendición; amarte siempre, nuestra promesa.»</p>
       </div>
 
-      <!-- 3. FECHA Y CUENTA REGRESIVA -->
+      <!-- FECHA Y CUENTA REGRESIVA COMPACTA -->
       <section class="date-countdown-box">
         <div class="wedding-date-banner">
           <span class="date-day-name">DOMINGO</span>
@@ -100,17 +125,15 @@
           </div>
         </div>
 
-        <div class="calendar-btn-wrap">
-          <button class="btn btn-outline-gold" id="btn-add-google-cal">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-              <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z"/>
-            </svg>
-            Agendar en Google Calendar
-          </button>
-        </div>
+        <button class="btn btn-outline-gold btn-sm" id="btn-add-google-cal">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z"/>
+          </svg>
+          Agendar en Google Calendar
+        </button>
       </section>
 
-      <!-- 4. ITINERARIO (MISA Y RECEPCIÓN EN ÁBREGO) -->
+      <!-- ITINERARIO (LUGARES Y HORARIOS EN ÁBREGO) -->
       <section class="itinerary-box">
         <h2 class="section-heading">Lugares &amp; Horarios</h2>
         <div class="places-grid">
@@ -118,50 +141,42 @@
           <!-- Ceremonia -->
           <div class="place-card">
             <div class="place-icon-wrap">
-              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M12 2v20M7 7h10M5 22h14M8 12l4-4 4 4v10H8V12z"/>
               </svg>
             </div>
-            <span class="place-tag">Ceremonia Religiosa</span>
+            <span class="place-tag">Ceremonia</span>
             <h3 class="place-name">Misa Nupcial</h3>
             <div class="place-time">⏰ 5:00 PM</div>
-            <p class="place-loc"><strong>Iglesia Santa Bárbara</strong><br>Ábrego, Norte de Santander</p>
+            <p class="place-loc"><strong>Iglesia Santa Bárbara</strong><br>Ábrego, N. de Santander</p>
             <a href="https://www.google.com/maps/search/?api=1&query=Iglesia+Santa+B%C3%A1rbara+%C3%81brego" target="_blank" rel="noopener noreferrer" class="btn btn-location">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-              </svg>
-              Ver Iglesia en Google Maps
+              Ver en Google Maps
             </a>
           </div>
 
           <!-- Recepción -->
           <div class="place-card">
             <div class="place-icon-wrap">
-              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M8 22h8M12 15v7M5 3h14l-2 9a5 5 0 0 1-5 4 5 5 0 0 1-5-4L5 3z"/>
               </svg>
             </div>
             <span class="place-tag">Celebración</span>
             <h3 class="place-name">Recepción &amp; Fiesta</h3>
             <div class="place-time">⏰ 6:30 PM</div>
-            <p class="place-loc"><strong>Club de los Maestros</strong><br>Ábrego, Norte de Santander</p>
+            <p class="place-loc"><strong>Club de los Maestros</strong><br>Ábrego, N. de Santander</p>
             <a href="https://www.google.com/maps/search/?api=1&query=Club+de+los+Maestros+%C3%81brego" target="_blank" rel="noopener noreferrer" class="btn btn-location">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-              </svg>
-              Ver Recepción en Google Maps
+              Ver en Google Maps
             </a>
           </div>
 
         </div>
       </section>
 
-      <!-- 5. LLUVIA DE SOBRES -->
+      <!-- LLUVIA DE SOBRES -->
       <section class="gift-box-section">
         <div class="gift-icon-round">
-          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
             <polyline points="22,6 12,13 2,6"></polyline>
           </svg>
@@ -169,50 +184,37 @@
         <span class="gift-tag">MUESTRA DE CARIÑO</span>
         <h3 class="gift-title">Lluvia de Sobres</h3>
         <p class="gift-desc">
-          «Tu presencia, tus oraciones y tu bendición son nuestro mayor obsequio. Si deseas hacernos un presente en efectivo para nuestro nuevo hogar, dispondremos de un baúl para <strong>lluvia de sobres</strong> en la entrada del Club de los Maestros.»
+          «Tu presencia es nuestro mayor regalo. Si deseas hacernos un presente en efectivo para nuestro nuevo hogar, dispondremos de un baúl para <strong>lluvia de sobres</strong> en la entrada del salón.»
         </p>
-        <p class="gift-quote">«Cada detalle nos acerca más a construir el hogar de nuestros sueños. ¡Gracias por ser parte de nuestra historia!»</p>
+        <p class="gift-quote">«¡Gracias por ser parte de nuestra historia!»</p>
       </section>
 
-      <!-- 6. FOTOS DE RECUERDO -->
-      <section class="mini-gallery-section">
-        <h2 class="section-heading">Nuestros Momentos</h2>
-        <div class="mini-gallery-grid">
-          <div class="mini-photo-item">
-            <img src="assets/images/foto-iglesia-2.jpg" alt="Lisandro y Daniela en el altar" loading="lazy">
-          </div>
-          <div class="mini-photo-item">
-            <img src="assets/images/foto-pareja-1.png" alt="Lisandro y Daniela sonrientes" loading="lazy">
-          </div>
-        </div>
-      </section>
-
-      <!-- 7. CONFIRMACIÓN DIRECTA DE ASISTENCIA (RSVP) -->
+      <!-- CONFIRMACIÓN DIRECTA (RSVP) -->
       <section class="rsvp-direct-box" id="rsvp-section">
         <div class="rsvp-tag">CONFIRMACIÓN</div>
         <h2 class="rsvp-title">Confirma tu Asistencia</h2>
-        <p class="rsvp-sub">Por favor indícanos tu nombre y cuántas personas asisten para reservar tu lugar especial.</p>
+        <p class="rsvp-sub">Escribe tu nombre para confirmar tu lugar con nosotros:</p>
 
         <form class="simple-rsvp-form" onsubmit="return false;">
           <div class="form-group">
-            <label for="guest-name">Tu Nombre y Apellidos:</label>
-            <input type="text" id="guest-name" class="simple-input" placeholder="Ej. Familia Pérez / Juan Gómez" required>
+            <input type="text" id="guest-name" class="simple-input" placeholder="Nombre y Apellidos completos *" required>
           </div>
 
-          <div class="form-group">
-            <label for="guests-count">Número de Personas:</label>
-            <select id="guests-count" class="simple-select">
-              <option value="1">1 Persona (Solo yo)</option>
-              <option value="2" selected>2 Personas (Pareja)</option>
-              <option value="3">3 Personas</option>
-              <option value="4">4 Personas</option>
-              <option value="5+">5 o más personas</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="guest-message">Mensaje para los novios (opcional):</label>
-            <input type="text" id="guest-message" class="simple-input" placeholder="¡Muchas felicidades Lisandro y Daniela!">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="guests-count">Personas:</label>
+              <select id="guests-count" class="simple-select">
+                <option value="1">1 Persona</option>
+                <option value="2" selected>2 Personas</option>
+                <option value="3">3 Personas</option>
+                <option value="4">4 Personas</option>
+                <option value="5+">5+ personas</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="guest-message">Mensaje (opcional):</label>
+              <input type="text" id="guest-message" class="simple-input" placeholder="¡Felicidades!">
+            </div>
           </div>
 
           <button type="button" class="btn-whatsapp-direct" id="btn-whatsapp-confirm">
@@ -224,17 +226,16 @@
         </form>
       </section>
 
-      <!-- 8. PIE DE PÁGINA -->
+      <!-- PIE DE PÁGINA -->
       <footer class="card-footer">
         <div class="footer-monogram">L &amp; D</div>
-        <p class="footer-date">27 · DICIEMBRE · 2026</p>
-        <p class="footer-place">Ábrego · Norte de Santander</p>
+        <p class="footer-date">27 · DICIEMBRE · 2026 · ÁBREGO</p>
         <p class="footer-quote">«El inicio de nuestro para siempre»</p>
       </footer>
 
     </main>
   </div>
 
-  <script src="app.js?v=20261114-1"></script>
+  <script src="app.js?v=20261114-2"></script>
 </body>
 </html>
